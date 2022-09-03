@@ -6,33 +6,19 @@ const loadCategories = () => {
         .then(res => res.json())
         .then(data => displayCategories(data.data.news_category))
 }
+
+
 loadCategories()
+
 const displayCategories = categories => {
-
-
     const categoriesContainer = document.getElementById('category')
-
+    const foundSection = document.getElementById('foundSection')
     categoriesContainer.innerHTML = ``
-    // categories.forEach(category => {
-
-    //     console.log(category.category_name)
-
-    //     const list = document.createElement('ul')
-    //     list.classList.add('list-group')
-    //     list.classList.add('list-group-horizontal')
-    //     list.classList.add('gap-2')
-    //     list.innerHTML = `
-    //     <li class="list-group-item active rounded d-inline">
-    //     <a class="nav-link" aria-current="page" href="#">${category.category_name}</a>
-    //     </li>
-    //     `
-    //     categoriesContainer.appendChild(list)
-    // })
     categories.forEach(category => {
-
         console.log(category.category_name)
 
         const div = document.createElement('div')
+        div.setAttribute("id", "category-row");
         div.classList.add('category-row')
         div.classList.add('col')
         div.classList.add('border')
@@ -41,12 +27,118 @@ const displayCategories = categories => {
         div.classList.add('m-1')
         div.classList.add('p-2')
         div.classList.add('text-primary')
+
         div.innerHTML = `
             ${category.category_name}
         `
-
         categoriesContainer.appendChild(div)
+
+        div.addEventListener('click', () => {
+            // div.classList.add('active')
+            loadNews(category.category_id)
+            console.log(div);
+            foundSection.innerHTML = `
+               5 items found for category <span class="fw-bold">${category.category_name}</span> 
+            `
+        })
+
     })
+
+
+
 }
+
+
+const loadNews = id => {
+    const url = `https://openapi.programming-hero.com/api/news/category/${id}`
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displayNews(data.data))
+}
+
+loadNews()
+
+const displayNews = (allNews => {
+
+
+    const newsContainer = document.getElementById('newsSection')
+    newsContainer.innerHTML = ``
+    if (allNews.length < 1) {
+        newsContainer.innerHTML = `
+        <h1 class="text-center fw-bold text-primary">No news found</h1>    
+        `
+    }
+    else {
+        allNews.forEach(news => {
+
+            const div = document.createElement('div')
+            div.classList.add('card')
+            div.classList.add('mb-3')
+
+            // console.log(allNews);
+
+
+
+
+
+            // console.log(news.title)
+            // console.log(news.total_view)
+
+            div.innerHTML = `
+            <div class="row align-items-center g-0">
+                <div class="col-md-3 p-4">
+                    <img src="${news.thumbnail_url}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-9 ">
+                    <div class="card-body">
+                            <h5 class="card-title">${news.title}</h5>
+                            <p class="card-text">${news.details.length > 500 ? news.details = news.details.substring(0, 600) + "....." : news.details}</p>
+                            <div class="news-footer pt-3 row align-items-center">
+                                <div class="author col-4">
+                                    <div class="row align-items-center">
+                                        <div class="profile-img col-3 px-1">
+                                        <img src="${news.author.img}" alt="">
+                                        </div>
+                                        <div class="col-9">
+                                            <p class="mb-0 fw-semibold">${news.author.name}</p>
+                                            <p>${news.author.published_date}</p>
+                                        </div>
+                                    </div>                    
+                                </div>                
+                        <div class="views col-2"><p class="fw-semibold"><i class="fa-solid fa-eye"></i> ${news.total_view}</p></div>
+                        <div class="review col-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                        <div class="next col-2"><button class="btn btn-primary" type="submit"> <i class="fa-solid fa-up-right-and-down-left-from-center"></i></button></div>
+                    </div>
+                </div>
+            </div>
+        `
+            newsContainer.appendChild(div)
+        })
+    }
+})
+
+
+// const displayNews = allNews => {
+//     // const foundSection = document.getElementById('foundSection')
+//     // console.log(allNews)
+
+//     // const categoryRow = document.getElementById('category-row')
+//     // const foundParagraph = document.createElement('p')
+//     // foundParagraph.classList.add('my-5')
+//     // foundParagraph.classList.add('bg-light')
+//     // foundParagraph.classList.add('rounded')
+//     // foundParagraph.classList.add('p-3')
+//     // foundParagraph.classList.add('d-none')
+
+//     // categoryRow.addEventListener('click', () => {
+//     //     console.log(allNews)
+//     //     foundParagraph.innerHTML = ``
+//     //     foundParagraph.innerHTML = `
+//     //         ${allNews} items found for category
+//     //     `
+//     //     foundSection.appendChild(foundParagraph)
+//     // })
+
+// }
 
 
