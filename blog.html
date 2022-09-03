@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BDNEWS Portal</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- Navbar -->
+      
+    <section>
+      <nav class="navbar navbar-expand-lg bg-transparent">
+        <div class="container">
+          <div class="navbar-brand" href="#"
+                  ><h3 class="fw-bold text-primary logo">
+                  <span class="bg-primary text-light rounded-3 p-1">BDNEWS <span class="px-1 rounded-2 bg-light text-primary">Portal</span></span></h3></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              
+            </ul>
+            <div class="d-flex" role="search">
+              <ul class="navbar-nav mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a id="newsTab" class="nav-link fw-bold" aria-current="page" href="./index.html">News</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link active fw-bold" id="blogTab" href="#">Blog</a>
+                      </li>
+                      <li class="nav-item profile-img">
+                        <img src="./images/profile.png" alt="" styl>
+                      </li>
+                  </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </section>
+    
+    <!-- Navbar End -->
+
+    <div class="container mt-5 blogContent" id="blogContent">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  <h2>Var, Let, and Const – What's the Difference?</h2>
+                  </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <p class="accordion-body fs-3">In var and let we can reassign to a variable which we can't in const. We can only redeclare in var. Let and const both are block scope on the otherhand var isn't. Var have access to global object propery window and let, const doesn't.
+                    var,let can be declared without initialization, const cannot be declared without initialization.
+                  </p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                   <h2> The Difference Between Regular Functions and Arrow Functions.</h2>
+                  </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                  <p class="accordion-body fs-3">
+                    Inside of a regular JavaScript function, this value (aka the execution context) is dynamic. And the arrow function resolves this lexically.
+                    The regular function can easily construct objects. A consequence of this resolved lexically is that an arrow function cannot be used as a constructor.
+                    If the arrow function has one expression, then the expression is returned implicitly, even without using the return keyword.
+                    <br>
+                    Last but not least, you can define methods using the arrow function syntax inside classes. Fat arrow methods bind this value to the class instance.
+                  </p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                   <h2> .forEach(), .map(), .filter(), .find() - What's the difference?</h2>
+                  </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                  <p class="accordion-body fs-3">
+                    Foreach takes a callback function and run that callback function on each element of array one by one.
+                    Basically forEach works as a traditional for loop looping over the array and providing you array elements to do operations on them.
+
+                    The main difference between forEach and filter is that forEach just loop over the array and executes the callback but filter executes the callback and check its return value.
+                    If the value is true element remains in the resulting array but if the return value is false the element will be removed for the resulting array.
+                    Map like filter & foreach takes a callback and run it against every element on the array but whats makes it unique is it generate a new array based on your existing array.
+                    Find is like filter but it only returns the first element that matches the condition.
+
+
+                  </p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                   <h2>Why should we use Template String?</h2>
+                  </button>
+                </h2>
+                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                  <p class="accordion-body fs-3">Template strings are a powerful feature of modern JavaScript released in ES6. It lets us insert/interpolate variables and expressions into strings without needing to concatenate like in older versions of JavaScript. It allows us to create strings that are complex and contain dynamic elements.</p>
+                </div>
+              </div>
+          </div>
+        </div>
+    <!-- Footer starts -->
+    <footer class="bg-secondary text-white fw-bold mt-5 text-center "style="position: absolute; width: 100% ">
+        <p class="text-center py-3">Copyright 2021 BDNEWS Portal</p>
+    </footer>
+    <!-- Footer ends -->
+
+    <script src="./index.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

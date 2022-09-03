@@ -5,7 +5,19 @@ const loadCategories = () => {
     fetch(url)
         .then(res => res.json())
         .then(data => displayCategories(data.data.news_category))
+        .catch(error => console.log(error))
 }
+
+const toggleSpinner = isLoading => {
+    const loaderSection = document.getElementById('loader')
+    if (isLoading) {
+        loaderSection.classList.remove('d-none')
+    }
+    else {
+        loaderSection.classList.add('d-none')
+    }
+}
+
 
 
 loadCategories()
@@ -35,31 +47,51 @@ const displayCategories = categories => {
         categoriesContainer.appendChild(div)
 
         div.addEventListener('click', () => {
+            toggleSpinner(true);
+
             div.classList.add('active')
             loadNews(category.category_id)
+            loadFound(category.category_id, category.category_name)
             console.log(div);
-            foundSection.innerHTML = `
-               5 items found for category <span class="fw-bold">${category.category_name}</span> 
-            `
         })
 
     })
-
-
-
 }
+
+const loadFound = (id, name) => {
+    const url = `https://openapi.programming-hero.com/api/news/category/${id}`
+    fetch(url)
+        .then(res => res.json())
+        .then(data => foundSectionLength(data.data.length))
+        .catch(error => console.log(error))
+
+    let foundSectionLength = length => {
+
+        let foundSection = document.getElementById('foundSection')
+        foundSection.innerHTML = ``;
+        foundSection.innerHTML = `
+            ${length ? length : 'No'} items found for category ${name ? name : ''}
+            `
+    }
+
+    // foundSectionLength()
+}
+loadFound();
+
+
 
 const defaultNews = () => {
     const url = `https://openapi.programming-hero.com/api/news/category/01`
     fetch(url)
         .then(res => res.json())
         .then(data => defaultNewsLoad(data.data))
+        .catch(error => console.log(error))
 }
 defaultNews();
 
 
 
-const defaultNewsLoad = (allNews => {
+const defaultNewsLoad = allNews => {
     console.log(allNews);
     function sortByViews(allNews) {
         return allNews.sort((a, b) => b.total_view - a.total_view);
@@ -103,7 +135,29 @@ const defaultNewsLoad = (allNews => {
                                 </div>                
                         <div class="views col-2"><p class="fw-semibold"><i class="fa-solid fa-eye"></i> ${news.total_view}</p></div>
                         <div class="review col-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
-                        <div class="next col-2"><button class="btn btn-primary" type="submit"> <i class="fa-solid fa-up-right-and-down-left-from-center"></i></button></div>
+                        
+                        
+                        <div class="next col-2">
+                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                 <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                        </button>
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <img src="${news.image_url}" class="img-fluid rounded-start" alt="...">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">${news.title}</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        ${news.details}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,20 +165,25 @@ const defaultNewsLoad = (allNews => {
         newsContainer.appendChild(div)
     })
 
-})
+}
+
+
+
 
 
 const loadNews = id => {
     const url = `https://openapi.programming-hero.com/api/news/category/${id}`
     fetch(url)
+
         .then(res => res.json())
         .then(data => displayNews(data.data))
+        .catch(error => console.log(error))
 }
 
 
 loadNews()
 
-const displayNews = (allNews => {
+const displayNews = allNews => {
 
     function sortByViews(allNews) {
         return allNews.sort((a, b) => b.total_view - a.total_view);
@@ -134,21 +193,20 @@ const displayNews = (allNews => {
     const newsContainer = document.getElementById('newsSection')
     newsContainer.innerHTML = ``
     if (allNews.length < 1) {
+        toggleSpinner(false)
         newsContainer.innerHTML = `
         <h1 class="text-center fw-bold text-primary">No news found</h1>    
         `
     }
     else {
         allNews.forEach(news => {
+            toggleSpinner(false)
             const div = document.createElement('div')
 
             div.classList.add('card')
             div.classList.add('mb-3')
 
-            // console.log(allNews);
-
-            // console.log(news.title)
-            // console.log(news.total_view)
+            console.log(news);
 
             div.innerHTML = `
             <div class="row align-items-center g-0">
@@ -158,7 +216,7 @@ const displayNews = (allNews => {
                 <div class="col-md-9 ">
                     <div class="card-body">
                             <h5 class="card-title">${news.title}</h5>
-                            <p class="card-text">${news.details.length > 500 ? news.details = news.details.substring(0, 600) + "....." : news.details}</p>
+                            <p class="card-text">${news.details.length > 500 ? news.details = news.details.substring(0, 600) + "...." : news.details}</p>
                             <div class="news-footer pt-3 row align-items-center">
                                 <div class="author col-4">
                                     <div class="row align-items-center">
@@ -173,7 +231,28 @@ const displayNews = (allNews => {
                                 </div>                
                         <div class="views col-2"><p class="fw-semibold"><i class="fa-solid fa-eye"></i> ${news.total_view}</p></div>
                         <div class="review col-4"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
-                        <div class="next col-2"><button class="btn btn-primary" type="submit"> <i class="fa-solid fa-up-right-and-down-left-from-center"></i></button></div>
+                        
+                        <div class="next col-2">
+                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                 <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                        </button>
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <img src="${news.image_url}" class="img-fluid rounded-start" alt="...">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">${news.title}</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        ${news.details}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -181,74 +260,24 @@ const displayNews = (allNews => {
             newsContainer.appendChild(div)
         })
     }
-})
-
-
-const blog = document.getElementById('blogtab')
-const newsTab = document.getElementById('newstab')
-const content = document.getElementById('content')
-const blogContent = document.getElementById('blogContent')
-
-
-// blog.addEventListener('click', () => {
-//     main.classList.add('d-none');
-//     blog.classList.add('text-primary fw-bold');
-//     newsTab.classList.remove('text-primary fw-bold');
-
-//     newsTab.addEventListener('click', () => {
-//         main.classList.remove('d-none');
-//         blog.classList.remove('text-primary fw-bold');
-//     })
-// })
-
-function blogNav() {
-    content.classList.add('d-none');
-    blog.classList.add('active');
-    newsTab.classList.remove('active');
-    blogContent.classList.remove('d-none');
-
 }
-function newsNav() {
-    content.classList.remove('d-none');
-    blog.classList.remove('active');
-    newsTab.classList.add('active');
-    blogContent.classList.add('d-none');
+displayNews()
 
+// Modal
+const loadNewsDetail = newsid => {
+    const url = `https://openapi.programming-hero.com/api/news/${newsid}`
+    fetch(url)
+        .then(res => res.json())
+        .then(data => console.log(data.data))
+        .catch(error => console.log(error))
+    console.log('all news')
 }
+// loadNewsDetail()
 
 
+const modal = document.getElementById('modal')
 
 
-
-
-
-
-
-
-
-
-// const displayNews = allNews => {
-//     // const foundSection = document.getElementById('foundSection')
-//     // console.log(allNews)
-
-//     // const categoryRow = document.getElementById('category-row')
-//     // const foundParagraph = document.createElement('p')
-//     // foundParagraph.classList.add('my-5')
-//     // foundParagraph.classList.add('bg-light')
-//     // foundParagraph.classList.add('rounded')
-//     // foundParagraph.classList.add('p-3')
-//     // foundParagraph.classList.add('d-none')
-
-//     // categoryRow.addEventListener('click', () => {
-//     //     console.log(allNews)
-//     //     foundParagraph.innerHTML = ``
-//     //     foundParagraph.innerHTML = `
-//     //         ${allNews} items found for category
-//     //     `
-//     //     foundSection.appendChild(foundParagraph)
-//     // })
-
-// }
 
 
 
