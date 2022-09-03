@@ -18,3 +18,8 @@ body{
     transition: .4s;
     
 }
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}

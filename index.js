@@ -104,7 +104,7 @@ const displayNews = (allNews => {
                                         <img src="${news.author.img}" alt="">
                                         </div>
                                         <div class="col-9">
-                                            <p class="mb-0 fw-semibold">${news.author.name}</p>
+                                            <p class="mb-0 fw-semibold">${news.author.name ? news.author.name : 'No author name found'}</p>
                                             <p>${news.author.published_date}</p>
                                         </div>
                                     </div>                    
