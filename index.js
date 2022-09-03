@@ -60,6 +60,10 @@ loadNews()
 
 const displayNews = (allNews => {
 
+    function sortByViews(allNews) {
+        return allNews.sort((a, b) => b.total_view - a.total_view);
+    }
+    console.log(sortByViews(allNews));
 
     const newsContainer = document.getElementById('newsSection')
     newsContainer.innerHTML = ``
