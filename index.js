@@ -49,12 +49,21 @@ const displayCategories = categories => {
 }
 
 
+
+
+
+
+
+
+
+
 const loadNews = id => {
     const url = `https://openapi.programming-hero.com/api/news/category/${id}`
     fetch(url)
         .then(res => res.json())
         .then(data => displayNews(data.data))
 }
+
 
 loadNews()
 
@@ -63,7 +72,7 @@ const displayNews = (allNews => {
     function sortByViews(allNews) {
         return allNews.sort((a, b) => b.total_view - a.total_view);
     }
-    console.log(sortByViews(allNews));
+    sortByViews(allNews)
 
     const newsContainer = document.getElementById('newsSection')
     newsContainer.innerHTML = ``
@@ -74,16 +83,12 @@ const displayNews = (allNews => {
     }
     else {
         allNews.forEach(news => {
-
             const div = document.createElement('div')
+
             div.classList.add('card')
             div.classList.add('mb-3')
 
             // console.log(allNews);
-
-
-
-
 
             // console.log(news.title)
             // console.log(news.total_view)
@@ -121,6 +126,38 @@ const displayNews = (allNews => {
     }
 })
 
+
+const blog = document.getElementById('blogtab')
+const newsTab = document.getElementById('newstab')
+const content = document.getElementById('content')
+const blogContent = document.getElementById('blogContent')
+
+
+// blog.addEventListener('click', () => {
+//     main.classList.add('d-none');
+//     blog.classList.add('text-primary fw-bold');
+//     newsTab.classList.remove('text-primary fw-bold');
+
+//     newsTab.addEventListener('click', () => {
+//         main.classList.remove('d-none');
+//         blog.classList.remove('text-primary fw-bold');
+//     })
+// })
+
+function blogNav() {
+    content.classList.add('d-none');
+    blog.classList.add('active');
+    newsTab.classList.remove('active');
+    blogContent.classList.remove('d-none');
+
+}
+function newsNav() {
+    content.classList.remove('d-none');
+    blog.classList.remove('active');
+    newsTab.classList.add('active');
+    blogContent.classList.add('d-none');
+
+}
 
 // const displayNews = allNews => {
 //     // const foundSection = document.getElementById('foundSection')
